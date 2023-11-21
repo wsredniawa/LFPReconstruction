@@ -4,11 +4,7 @@ Created on Thu Nov 02 17:26:00 2017
 
 @author: Wladek
 """
-
-from neo.io import Spike2IO
-from neo import AnalogSignal
 import matplotlib.cm as cm
-import quantities
 import numpy as np
 import pylab as py
 import os
@@ -43,57 +39,6 @@ def remove_points(mtrx, xpos, ypos, zpos, tp, thr):
     zpos = np.delete(zpos, idx_to_remove)
     mtrx = np.delete(mtrx[:,tp], idx_to_remove)
     return mtrx, xpos, ypos, zpos
-
-def ldfs(params, ch_num, ch_cor=False, contacts=[0]):
-    r = Spike2IO(filename=params)
-    seg = r.read_segment()
-    t_stop = seg.t_stop
-    print('number of channels', len(seg.analogsignals), ch_cor)
-    # ch_num = len(seg.analogsignals)
-    try: 
-        for i in range(ch_num): seg.analogsignals[i]
-    except:
-        ch_num = len(seg.analogsignals)
-    ch_list = []
-    chlen = np.zeros(ch_num)
-    for i in range(ch_num): chlen[i] = seg.analogsignals[i].size
-    rec_len = int(np.min(chlen))
-    pots = np.zeros((rec_len, ch_num))
-    pots2 = []
-    for i in range(ch_num):
-        signal = seg.analogsignals[i][:rec_len].reshape(rec_len)
-        if ch_cor:
-            numer_kanalu = list(filter(str.isdigit,signal.name))
-            channel = int(''.join(numer_kanalu))
-            print ('changed ch:',  signal.name)
-            ch_list.append(signal.name)
-            pots[:, channel - 1] = signal
-            Fs =  signal.sampling_rate
-        else:
-            if not ('untitled' in signal.name):
-                print ('original ch:',  i, signal.name)
-                ch_list.append(signal.name)
-                signal = seg.analogsignals[i]
-                Fs =  signal.sampling_rate
-                signal = signal.flatten()
-                print(signal.shape)
-                pots2.append(signal[:rec_len])
-    if len(contacts)>1: 
-        pots2 = np.zeros(pots.shape)
-        for i in range(ch_num): pots2[:,i] = pots[:, int(contacts[i]-1)]
-        pots = pots2
-    if not ch_cor: pots = np.array(pots2).T
-    sigarr = pots
-    markers = []
-    try:  
-        for i in range(3): markers.append(seg.events[i])
-    except: 
-        pass
-    try:  
-        for i in range(2): markers.append(seg.events[i])
-    except: 
-        pass
-    return sigarr.T, Fs, ch_list, t_stop, markers
 
 def low_split(syg, wzor, thresh, dlugosc, thr = 1, skok = 1):
     if thr>0:
@@ -292,7 +237,6 @@ def gam_and_hfo(HFO, freq_lim, ch_list, Fs, vmax = 1e-4, ss=0, sts=50):
     py.ylim(0, vmax)
     py.xlim(ss, sts)
     return freq
-
 
 import scipy.stats as ststats
 def randsample(x,ile):

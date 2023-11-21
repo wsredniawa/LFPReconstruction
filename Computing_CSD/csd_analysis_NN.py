@@ -11,7 +11,6 @@ from scipy.signal import filtfilt, butter, detrend, argrelmax, argrelmin
 from scipy.stats import pearsonr
 from kcsd import oKCSD3D
 from mayavi import mlab
-from basicfunc import model_data
 import sov_funcs as sf
 import scipy.io
 from scipy.spatial import distance
@@ -34,9 +33,9 @@ def check_sources(est_xyz, ele_pos, inds, indst):
     mlab.points3d(ele_pos[0], ele_pos[1], ele_pos[2], color=(1, 0, 0), scale_mode='none', scale_factor=.2)
 
 #%%
+file = 'sov11.mat'
 Fs = 10000
 b,a = butter(2,[1/(Fs/2), 1000/(Fs/2)], btype='bandpass')
-file = 'sov11.mat'
 mat_file = scipy.io.loadmat('../Data/'+file)
 # est_env = np.load('est_env.npy')
 
@@ -115,7 +114,7 @@ py.subplot(222)
 py.imshow(cor_score_crtx, vmax=1, vmin=-1, cmap='PiYG', aspect='auto', extent=[-5,25, ele_pos.shape[1],0])
 py.subplot(224)
 py.imshow(cor_score_th, vmax=1, vmin=-1, cmap='PiYG', aspect='auto', extent=[-5,25, ele_pos.shape[1],0])
-scipy.io.savemat('./mats/an_'+file,
+scipy.io.savemat('../data/an_'+file,
                  dict(cs_crtx=cor_score_crtx, cs_th=cor_score_th,
                       csd=csd, pots=pots, pots_est_th = pots_est_th,pots_est_crtx=pots_est_crtx))
 #%%
