@@ -74,8 +74,8 @@ def st_profile(po, pos, name, csd, title='', key='a', vmax=1000):
     py.xticks(fontsize=labelf), py.yticks(fontsize=labelf)
     ax.spines['right'].set_visible(False)
 
-loadir='./fig2_files/'
-loadir_mat = './mats/'
+loadir='../data/'
+loadir_mat = '../data/'
 fig = py.figure(figsize=(30,15))
 gs = fig.add_gridspec(8,17)
 # exp_design(('A',1.05), (0,10,1,6), 'hist_mtrx.png')

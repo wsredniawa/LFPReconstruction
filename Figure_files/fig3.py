@@ -100,7 +100,7 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
     
 
 th_start=88
-loadir='./fig3_files/'
+loadir='../data/'
 fig = py.figure(figsize=(15,14), dpi=400)
 gs = fig.add_gridspec(26, 26)
 exp_design(('A1',1.07), (0,6,0,7), 'full_space.png')

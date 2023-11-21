@@ -48,7 +48,7 @@ Fs = 10000
 file = 'sov19.mat'
 above_cortex=slownik[file][0]
 th_channel=slownik[file][1]
-mat_file = scipy.io.loadmat('./mats/'+file)
+mat_file = scipy.io.loadmat('../data/'+file)
 # est_env = np.load('est_env.npy')
 
 crtx, th, ele_pos = mat_file['crtx'], mat_file['th'], mat_file['ele_pos'][:,::-1]
@@ -152,12 +152,12 @@ if '19' in file:
     # py.axhline(135)
     py.subplot(133)
     py.imshow(pot_VC, cmap='PRGn', extent=[-5,25, ele_pos.shape[1], 0], vmin=-1e1, vmax=1e1, aspect='auto', origin='lower')
-    scipy.io.savemat('./mats/an_'+file,
+    scipy.io.savemat('../data/an_'+file,
                      dict(cs_crtx=cor_score_crtx, cs_th=cor_score_th,
                      pots_est_crtx=pots_est_crtx, pots_est_th= pots_est_th, pots=pots,
                      csd=csd, pot_VC=pot_VC, csd2 = k2.values('CSD')))
 else:
-    scipy.io.savemat('./mats/an_'+file,
+    scipy.io.savemat('../data/an_'+file,
                      dict(cs_crtx=cor_score_crtx, cs_th=cor_score_th,
                           pots_est_crtx=pots_est_crtx, pots_est_th= pots_est_th, pots=pots,
                           csd=csd))

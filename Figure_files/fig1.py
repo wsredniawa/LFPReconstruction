@@ -37,7 +37,7 @@ def cor_map_stat(po, pos, name=''):
     tps, lp = list(np.arange(28)), 1
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
-    loadir='./mats/'
+    loadir='../data/'
     cor_score_th = np.array([scipy.io.loadmat(loadir+'an_sov16.mat')['cor'], 
                              scipy.io.loadmat(loadir+'an_sov17.mat')['cor'],
                              scipy.io.loadmat(loadir+'an_sov18.mat')['cor'], 
@@ -89,7 +89,7 @@ def ex_lfp_NP(po, pos, name):
     set_axis(ax, 0, po[1], letter= po[0])
     mpl.rcParams['axes.spines.right'] = True
     # pots = np.load(loadir+name)[::-1]
-    pots = scipy.io.loadmat('./mats/an_sov19.mat')['pots']
+    pots = scipy.io.loadmat('../data/an_sov19.mat')['pots']
     # pots=pots[:,475+5:625+5]
     py.title('Example evoked potential')
     ch_th,ch_crtx=124,320
@@ -126,7 +126,7 @@ def lfp_profile(po, pos, name, title, vmax=200):
     set_axis(ax, 0, po[1], letter= po[0])
     # ele_pos_pre, wave_pre = np.load('ele_pos_19.npy'), np.load('05pots_19.npy')
     lfp = scipy.io.loadmat(name)['pots']*2
-    ele_pos = scipy.io.loadmat('./mats/sov19.mat')['ele_pos'].T
+    ele_pos = scipy.io.loadmat('../data/sov19.mat')['ele_pos'].T
     # wave = np.delete(wave_pre, 287, axis=0)
     # ele_pos = np.delete(ele_pos_pre,287, axis=1)
     py.title("Profile of averaged "+title+"EPs (Neuropixel)")
@@ -156,14 +156,14 @@ def lfp_profile(po, pos, name, title, vmax=200):
     ax.spines['right'].set_visible(False)
     py.axvline(0, ls='--', lw = 2, color='grey')
     
-loadir='./fig1_files/'
+loadir='../data/'
 fig = py.figure(figsize=(20,10))
 gs = fig.add_gridspec(20, 23)
 exp_design(('A',1.03), (0,20,0,7), 'fig1_rat.png')
 # exp_design(('B',1.07), (12,20,0,6), 'hist.png')
 # ex_lfp(('D',1.05), (0,9,14,20), 'rat18_EP.npy')
 
-lfp_profile(('B',1.03), (0,20,8,14), './mats/an_sov19.mat', '')
+lfp_profile(('B',1.03), (0,20,8,14), '../data/an_sov19.mat', '')
 # correlation_map(('D',1.1), (1,20,14,18), 'cor_score_280_19.npy')
 # lfp_profile(('E',1.1), (12,20,8,13), 'sov6events_t.npy', 'thalamic', .1)
 # ex_lfp_NP(('E',1.05), (0,9,20,25), 'rat13_EP.npy')
