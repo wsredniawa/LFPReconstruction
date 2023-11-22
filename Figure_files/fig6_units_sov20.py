@@ -184,7 +184,7 @@ def lfp_profile(po, pos, name, title, vmax=200, scale=40, size=20):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
     lfp = scipy.io.loadmat(name)['pots']
-    ele_pos = scipy.io.loadmat('./mats/sov19.mat')['ele_pos'].T
+    ele_pos = scipy.io.loadmat('../data/sov19.mat')['ele_pos'].T
     lfp = lfp.mean(axis=1)
     py.title(title, fontsize=size)
     time= np.linspace(-5,25,lfp.shape[1])
@@ -265,8 +265,8 @@ def comparison(po, pos, name1,name2, channel=255,div=2, Fs=5000, n_iter=1000):
 def spike_plot(po, pos, name1, name2, path, u1, u2, unit_average=False):
     global units_g,units_g2,wavetrials, loc_times1, loc_times2
     
-    loc_times1 = scipy.io.loadmat('./mats/sov20.mat')['trial_times'][0]*1000
-    loc_times2 = scipy.io.loadmat('./mats/sov20lid.mat')['trial_times'][0]*1000
+    loc_times1 = scipy.io.loadmat('../data/sov20.mat')['trial_times'][0]*1000
+    loc_times2 = scipy.io.loadmat('../data/sov20lid.mat')['trial_times'][0]*1000
     
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.04, po[1], letter= po[0])
@@ -355,8 +355,8 @@ def spike_plot(po, pos, name1, name2, path, u1, u2, unit_average=False):
     # ax.set_ylim(0,200)
     ax.set_ylabel('Trials/spikes density'),ax.set_xlabel('Time (ms)')
     
-loadir='./fig4_files/'
-loadir2='./fig6_files/'
+loadir='../data/'
+loadir2='../data/'
 channel=130
 fig = py.figure(figsize=(30,12), dpi=220)
 gs = fig.add_gridspec(10, 20)
@@ -364,34 +364,33 @@ gs = fig.add_gridspec(10, 20)
 
 rat='20'
 
-lfp_profile(('A',1.03), (0,10,0,3), './mats/an_multi_sov20.mat', 'control')
-lfp_profile(('B',1.03), (0,10,3,6), './mats/an_multi_sov20lid.mat', 'lignocaine')
-exp_design(('C',1.03), (0,10,7,10), 'fig6_hist_sov20.png')
+lfp_profile(('A',1.03), (0,10,0,3), '../data/an_multi_sov20.mat', 'control')
+lfp_profile(('B',1.03), (0,10,3,6), '../data/an_multi_sov20lid.mat', 'lignocaine')
+exp_design(('C',1.03), (0,10,7,10), '../utils/fig6_hist_sov20.png')
 
-ex_lfp_trials(('D',1.05), (0,3,11,20), './mats/an_multi_sov20.mat',
-        './mats/an_multi_sov20lid.mat', channel=channel, trials=list(np.arange(30,31)))
-comparison(('E',1.05), (4,6,11,20), './mats/an_multi_sov20.mat',
-           './mats/an_multi_sov20lid.mat', channel=channel)
-spike_plot(('F',1.05), (7,10,11,20), 'CSC130clean','CSC130clean',
-            r'C:\Users\Wladek\Desktop\combinato-main', 1, 1)
+ex_lfp_trials(('D',1.05), (0,3,11,20), '../data/an_multi_sov20.mat',
+        '../data/an_multi_sov20lid.mat', channel=channel, trials=list(np.arange(30,31)))
+comparison(('E',1.05), (4,6,11,20), '../data/an_multi_sov20.mat',
+           '../data/an_multi_sov20lid.mat', channel=channel)
+# spike_plot(('F',1.05), (7,10,11,20), 'CSC130clean','CSC130clean',
+            # r'C:\Users\Wladek\Desktop\combinato-main', 1, 1)
 py.savefig('fig6_new_spikes_20')
 #%%
-mua1 = scipy.io.loadmat('CSC130clean.mat')['data'][0]
-mua2 = scipy.io.loadmat('CSC130cleanlid.mat')['data'][0]
-Fs=scipy.io.loadmat('CSC130.mat')['sr'][0]
-loc_times1 = scipy.io.loadmat('./mats/sov20.mat')['trial_times'][0]
-loc_times2 = scipy.io.loadmat('./mats/sov20lid.mat')['trial_times'][0]
-py.figure()
-time = np.linspace(0,len(mua2)/Fs, len(mua2))
-b,a = butter(2,500/(Fs/2), btype='high')
-py.plot(time, filtfilt(b,a,mua2))
-for i in range(100):
-    if i in [29,30,31,32]:
-        py.axvline(loc_times2[i], color='red')
-units = np.asarray(units_g2[1])
-py.plot(units/1000, np.zeros(len(units_g2[1])), '|')
+# mua1 = scipy.io.loadmat('../data/CSC130clean.mat')['data'][0]
+# mua2 = scipy.io.loadmat('../data/CSC130cleanlid.mat')['data'][0]
+# Fs=scipy.io.loadmat('../data/CSC130.mat')['sr'][0]
+# loc_times1 = scipy.io.loadmat('../data/sov20.mat')['trial_times'][0]
+# loc_times2 = scipy.io.loadmat('../data/sov20lid.mat')['trial_times'][0]
+# py.figure()
+# time = np.linspace(0,len(mua2)/Fs, len(mua2))
+# b,a = butter(2,500/(Fs/2), btype='high')
+# py.plot(time, filtfilt(b,a,mua2))
+# for i in range(100):
+#     if i in [29,30,31,32]:
+#         py.axvline(loc_times2[i], color='red')
+# units = np.asarray(units_g2[1])
+# py.plot(units/1000, np.zeros(len(units_g2[1])), '|')
 #%%
-import subprocess
 # loadir= r'C:\Users\Wladek\Dysk Google\Autism_model'
 # path = r'C:\Users\Wladek\Desktop\combinato-main'
 

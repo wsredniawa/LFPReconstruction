@@ -20,7 +20,7 @@ import pandas as pd
 from scipy.interpolate import griddata
 import nibabel as nib
 
-data = nib.load('CBWJ13_P80_indexed_volume.nii.gz').get_fdata(dtype=np.float32)[::4,::4,::4]
+# data = nib.load('CBWJ13_P80_indexed_volume.nii.gz').get_fdata(dtype=np.float32)[::4,::4,::4]
 ele_pos_list = []
 for c in range(8):
     for d in range(8): ele_pos_list.append([0, c*.2, d*.2])
@@ -92,7 +92,7 @@ th_start=88
 lista,listam=[],[]
 b,a = butter(2., [1/(Fs/2), 2000/(Fs/2)], btype='bandpass')
 for i,file in enumerate(files):
-    mat_file = scipy.io.loadmat('./mats/'+file)
+    mat_file = scipy.io.loadmat('../data/'+file)
     crtx, th, ele_pos = filtfilt(b,a,mat_file['crtx']), filtfilt(b,a,mat_file['th']), mat_file['ele_pos']
     crtxm, thm = filtfilt(b,a,mat_file['crtx_multi']), filtfilt(b,a,mat_file['th_multi'])
     if i>1:
@@ -118,19 +118,13 @@ ele_pos=ele_pos.T
 for i in range(pots.shape[0]): 
     pots[i] = pots[i] - pots[i,:40].mean()
 
-brain_data, skip, div =sf.brain_env(), 1, 1/(0.05*4)
-px, pyy, pz = np.where(brain_data[10:-10, 50:70, 100:120]>100)
+# brain_data, skip, div =sf.brain_env(), 1, 1/(0.05*4)
+# px, pyy, pz = np.where(brain_data[10:-10, 50:70, 100:120]>100)
 
 corx, cory, corz = -3, -2.6, 10
-est_xyz = np.array([pyy[::skip]/div,pz[::skip]/div,px[::skip]/div])
-est_xyz = rotate(est_xyz.T, np.pi, 'x').T
-est_xyz = rotate(est_xyz.T, -np.pi/2, 'z').T
 
 est_env = rotate(est_env.T, np.pi, 'x').T
 est_env = rotate(est_env.T, -np.pi/2, 'z').T
-est_xyz[0]+=corx
-est_xyz[1]+=cory
-est_xyz[2]+=corz
 
 extra,res = .5,38
 x_ = np.linspace(ele_pos[0].min()-extra, ele_pos[0].max()+extra,20)
@@ -148,41 +142,8 @@ th_cut = (est_xyz[0]<(ele_pos[0,-8]+0.2))*(est_xyz[0]>(ele_pos[0,-8]))*(est_xyz[
 # th_cut = (est_xyz[0]<(ele_pos[0,-8]+0.2))*(est_xyz[0]>(ele_pos[0,-8]))
 
 inds,indst,ind_cut = np.where(indx==1)[0], np.where(indxt==1)[0], np.where(th_cut==1)[0]
-# check_sources()
-# est_env[0]+=corx+5, 
-# est_env[1]+=cory, 
-# est_env[2]+=1
 
 est_plane = est_xyz[:,ind_cut]
-# est_plane[2]+=1
-
-# est_plane = est_xyz2[:,ind_cut2]
-# est_plane[2]+=1
-# 1#%%
-# X,Y,Z = np.mgrid[est_env[0].min():est_env[0].max():55j, 
-#                  est_env[1].min():est_env[1].max():35j, 
-#                  est_env[2].min():est_env[2].max():35j]
-# R = est_env.T
-# F = griddata(R, np.ones(est_env.shape[1]), (X,Y,Z))
-# mlab.figure(bgcolor=(1, 1, 1), size=(1000, 800))
-# # mlab.points3d(est_xyz[0,ind_cut], est_xyz[1,ind_cut], est_xyz[2,ind_cut], scale_mode='none', 
-#                 # scale_factor=0.1, color = (.1, .9, .1))
-# # mlab.points3d(est_plane[0,:5], est_plane[1,:5], est_plane[2,:5], scale_mode='none', 
-#                 # scale_factor=0.1, color = (.1, .9, .1))
-# # mlab.points3d(est_plane2[0,:5], est_plane2[1,:5], est_plane2[2,:5], scale_mode='none', 
-#                 # scale_factor=0.1, color = (.1, .3, .3))
-# mlab.points3d(est_xyz[0,indst], est_xyz[1,indst], est_xyz[2,indst], scale_mode='none',
-#                 scale_factor=0.08, color = (.1, .2, .5))
-# mlab.points3d(est_xyz[0,inds], est_xyz[1,inds], est_xyz[2,inds], scale_mode='none',
-                # scale_factor=0.08, color = (.1, .2, .5))
-# # mlab.points3d(est_xyz[0], est_xyz[1], est_xyz[2], scale_mode='none', scale_factor=0.06, color = (.1, .2, .5))
-# # mlab.points3d(est_xyz[0, ele_src_dist], est_xyz[1, ele_src_dist], est_xyz[2,ele_src_dist], color=(0, 0, 1), scale_mode='none', scale_factor=.2)
-# mlab.points3d(ele_pos[0], ele_pos[1], ele_pos[2], color=(0, 0, 0), scale_mode='none', scale_factor=.2)
-# mlab.points3d(ele_pos[0,88:], ele_pos[1,88:], ele_pos[2,88:], color=(0, 0, 0), scale_mode='none', scale_factor=.2)
-# mlab.contour3d(data.swapaxes(0,1)[::-1,:,:],contours=6,opacity=.02,colormap = 'Accent',
-#                 extent=[est_env[0].min(),est_env[0].max(),
-#                         est_env[1].min(),est_env[1].max(),
-#                         est_env[2].min(),est_env[2].max()])
 #%%
 R=.6
 print('computing csd')
@@ -210,26 +171,6 @@ for part in range(frags):
         cor_score_crtx[ch,part] = pearsonr(pots[ch,leap*part:leap*part+leng], pots_est_crtx[ch, leap*part:leap*part+leng])[0]
         cor_score_th[ch,part] = pearsonr(pots[ch,leap*part:leap*part+leng], pots_est_th[ch, leap*part:leap*part+leng])[0]
         cor[ch,part] = pearsonr(pots[ch_stay,leap*part:leap*part+leng], pots[ch, leap*part:leap*part+leng])[0]
-#%%
-# py.figure()
-# py.subplot(131)
-# py.title('full channels cover')
-# py.imshow(csd, cmap='bwr', extent=[-5,25, ele_pos.shape[1], 0], vmin=-1e3, vmax=1e3, aspect='auto')
-# py.axhline(th_start)
-# py.subplot(132)
-# py.title('crtx_sources')
-# py.imshow(k_crtx.values('CSD'), cmap='bwr', extent=[-5,25, ele_pos.shape[1], 0], vmin=-1e3, vmax=1e3, aspect='auto')
-# # py.imshow(cor_score_crtx[eps], vmax=1, vmin=-1, cmap='PiYG', aspect='auto', extent=[-5,25, 0, ele_pos.shape[1]])
-# py.subplot(133)
-# py.title('th sources')
-# py.imshow(k_th.values('CSD'), cmap='bwr', extent=[-5,25, ele_pos.shape[1], 0], vmin=-1e3, vmax=1e3, aspect='auto')
-# # py.imshow(cor_score_th[eps], vmax=1, vmin=-1, cmap='PiYG', aspect='auto', extent=[-5,25, 0, ele_pos.shape[1]])
-# # py.figure()
-# # py.imshow(cor[eps], vmin=-1, vmax=1, extent=[-5,25,ele_pos.shape[1],1],aspect='auto', cmap='PiYG')
-# #%%
-# py.figure()
-# draw_signal_npy(pots[:th_start]/1e3, ele_pos[:, :th_start].T, 'crtx',color='black')
-# draw_signal_npy(pots[th_start:]/1e3, ele_pos[:, th_start:].T, 'th',color='black')
 #%%
 k_B=oKCSD3D(ele_pos.T, pots, own_src=est_xyz[:,indst], own_est=est_plane, src_type='gauss', R_init=R, lambd=1e-5)
 k_C=oKCSD3D(ele_pos[:,th_start:].T, pots[th_start:], own_src=est_xyz[:,indst], own_est=est_plane, src_type='gauss', R_init=R, lambd=1e-5)

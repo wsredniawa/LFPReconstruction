@@ -148,9 +148,8 @@ def draw_sphere(mv_x, mv_y, mv_z,angle):
 
 def brain_env():
     # from skimage import filters
-    modeldir = '/Users/Wladek/Dysk Google/Tom_data/'
     skacz = 4
-    brain_data = np.load(modeldir+'volume_Brain.npy')[::skacz,::skacz, ::skacz]
+    brain_data = np.load('est_env.npy')[::skacz,::skacz, ::skacz]
     brain_data = np.rot90(brain_data, 1, axes=(1,2))
      #35
     return brain_data

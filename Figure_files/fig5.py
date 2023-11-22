@@ -41,9 +41,9 @@ def exp_design2(po, pos, name, text,par):
 def exp_design(po, pos, name, text,par,i):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.05, po[1], letter= po[0])
-    img = py.imread('fig_5_sov'+str(i)+'_histologia.png')
-    ele_pos = scipy.io.loadmat('./mats/an_sov'+str(i)+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('./mats/an_sov'+str(i)+'.mat')['est_plane']
+    img = py.imread('../utils/fig_5_sov'+str(i)+'_histologia.png')
+    ele_pos = scipy.io.loadmat('../data/an_sov'+str(i)+'.mat')['ele_pos']
+    plane = scipy.io.loadmat('../data/an_sov'+str(i)+'.mat')['est_plane']
     ymin,ymax = plane[1].min(), plane[1].max()
     zmin,zmax = plane[2].min(), plane[2].max()
     ax.imshow(img, aspect='auto', extent=[ymin, ymax, zmax, zmin])
@@ -78,15 +78,15 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     global pots,ele_pos,inds, cont_lfp1
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.24, po[1], letter= po[0])
-    csd2 = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')[name]/1e3
-    ele_pos = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['est_plane']
+    csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
+    ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
+    plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
     py.title(title, pad=15, fontsize=15)
     extra,res = .5,38
     x_ = np.linspace(ele_pos[0].min()-extra, ele_pos[0].max()+extra,20)
     y_ = np.linspace(ele_pos[1].min()-extra, ele_pos[1].max()+extra,20)
     z_ = np.linspace(ele_pos[2].min()-extra, ele_pos[2].max()+extra,res)
-    img = py.imread('fig_5_sov'+str(i)+'_histologia.png')
+    img = py.imread('../utils/fig_5_sov'+str(i)+'_histologia.png')
     if po[0]=='A1':
         py.ylabel('5 ms after stimulus', fontsize=25, labelpad=25)
     if po[0]=='A2':
@@ -131,8 +131,8 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     ax.spines['right'].set_visible(False)
     # py.axvline(0, ls='--', lw = 2, color='grey')
 
-loadir='./fig4_files/'
-loadir2='./fig6_files/'
+loadir2 = loadir='../data/'
+
 tp=100
 tp2=150
 tp3=250

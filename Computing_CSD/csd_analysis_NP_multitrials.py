@@ -44,11 +44,11 @@ slownik = {'sov19.mat':(260, 123),
 #%%
 Fs = 10000
 trials=100
-file = 'sov20.mat'
+file = 'sov20lid.mat'
 # file = 'sov21.mat'
 above_cortex=slownik[file][0]
 th_channel=slownik[file][1]
-mat_file = scipy.io.loadmat('./mats/'+file)
+mat_file = scipy.io.loadmat('../data/'+file)
 est_env = np.load('est_env.npy')
 
 crtx, th, ele_pos = mat_file['crtx'], mat_file['th'], mat_file['ele_pos'][:,::-1]
@@ -111,7 +111,7 @@ for i in range(pots_trial.shape[1]):
 # pots_est_th = model_data(ele_pos, csd[indst], est_xyz[:,indst], sigma=1, r0=.4,  typ='gauss')/len(indst)
 # pots_est = model_data(ele_pos, csd, est_xyz[:,:], sigma=1, r0=.4, typ='gauss')/est_xyz.shape[1]
 #%%
-scipy.io.savemat('./mats/an_multi_'+file,
+scipy.io.savemat('../data/an_multi_'+file,
                  dict(pots_est_crtx=pots_est_crtx, 
                       pots_est_th=pots_est_th, pots=pots_trial,
                       csd=csd))

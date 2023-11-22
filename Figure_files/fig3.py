@@ -24,7 +24,7 @@ mpl.rcParams['ytick.major.size'] = 1
 def exp_design(po, pos, name):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.1, po[1], letter= po[0])
-    img = py.imread(loadir+name)
+    img = py.imread('../utils/'+name)
     
     ax.imshow(img, aspect='auto',extent=[0,1,0,1])
     py.xlim(.1,.9), py.ylim(0,1)
@@ -37,9 +37,9 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
     global pots1, pots2, ele_pos2
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.1, po[1], letter= po[0])
-    ele_pos = scipy.io.loadmat('./mats/an_sov17.mat')['ele_pos'].T
-    pots1 = scipy.io.loadmat('./mats/an_sov17.mat')['pots_'+part1]
-    pots2 = scipy.io.loadmat('./mats/an_sov17.mat')['pots_est'+part2]
+    ele_pos = scipy.io.loadmat('../data/an_sov17.mat')['ele_pos'].T
+    pots1 = scipy.io.loadmat('../data/an_sov17.mat')['pots_'+part1]
+    pots2 = scipy.io.loadmat('../data/an_sov17.mat')['pots_est'+part2]
     py.title(title)
     ele_pos_list,ele_pos_list2 = [],[]
     for c in range(8):

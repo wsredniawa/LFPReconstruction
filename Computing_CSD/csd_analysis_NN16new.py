@@ -127,8 +127,8 @@ ele_pos=ele_pos.T
 for i in range(pots.shape[0]): 
     pots[i] = pots[i] - pots[i,:40].mean()
 
-brain_data, skip, div =sf.brain_env(), 1, 1/(0.05*4)
-px, pyy, pz = np.where(brain_data[10:-10, 50:70, 100:120]>100)
+# brain_data, skip, div =sf.brain_env(), 1, 1/(0.05*4)
+# px, pyy, pz = np.where(brain_data[10:-10, 50:70, 100:120]>100)
 
 extra,res = .5,38
 x_ = np.linspace(ele_pos[0].min()-extra, ele_pos[0].max()+extra,20)
@@ -247,7 +247,7 @@ tx = py.text(4,7.5, '0 '+'ms', fontsize=20)
 time=np.linspace(-5,25,300)
 # anim = animation.FuncAnimation(fig, animate_func,frames = nSeconds*fps,interval=1000/fps)
 # anim.save(file[:5]+'.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])
-scipy.io.savemat('./mats/an_'+file[:5]+'.mat',
+scipy.io.savemat('../data/an_'+file[:5]+'.mat',
                  dict(cs_crtx=cor_score_crtx, cs_th=cor_score_th, pots_th=pots[th_start:], pots_crtx=pots[:th_start],
                       pots=pots,
                       ele_pos=ele_pos+np.repeat(a0,ele_pos.shape[1]).reshape((3,ele_pos.shape[1])), 
