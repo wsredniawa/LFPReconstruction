@@ -3,8 +3,9 @@ CSD/LFP analysis and figures from https://www.biorxiv.org/content/10.1101/2023.0
 
 Package needed to run the code:
 - kcsd (from https://github.com/Neuroinflab/kCSD-python)
-- scipy >1.9.1
-- mayavi >4.7.2 - just for visualization
-- matplotlib >3.5.2
+- scipy >=1.9.1
+- mayavi >=4.7.2 - just for visualization
+- matplotlib >=3.5.2
+- numpy >=1.21.5
   
 To test the reconstruction first run first Computing_CSD\csd_analysis_NN.py (or other). It will save another .mat for figures.
