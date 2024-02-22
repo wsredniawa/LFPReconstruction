@@ -38,17 +38,7 @@ def cor_map_stat(po, pos, name=''):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
     loadir='../data/'
-    cor_score_th = np.array([scipy.io.loadmat(loadir+'an_sov16.mat')['cor'], 
-                             scipy.io.loadmat(loadir+'an_sov17.mat')['cor'],
-                             scipy.io.loadmat(loadir+'an_sov18.mat')['cor'], 
-                             scipy.io.loadmat(loadir+'sov01.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov02.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov11.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov06.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov09.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov19.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov20.mat')['cor'],
-                             scipy.io.loadmat(loadir+'sov21.mat')['cor']])
+    cor_score_th = scipy.io.loadmat(loadir+'fig1_cor_file.mat')['cor_score_th'][0]
     n_rats = cor_score_th.shape[0]
     th = np.zeros((n_rats,len(tps)+2,lp))
     for n,i in enumerate(tps):
@@ -168,7 +158,7 @@ lfp_profile(('B',1.03), (0,20,8,14), '../data/an_sov19.mat', '')
 # lfp_profile(('E',1.1), (12,20,8,13), 'sov6events_t.npy', 'thalamic', .1)
 # ex_lfp_NP(('E',1.05), (0,9,20,25), 'rat13_EP.npy')
 ex_lfp_NP(('C',1.05), (0,9,16,23), '05pots_19.npy')
-# cor_map_stat(('D',1.02), (12,20,16,23), name='')
+cor_map_stat(('D',1.02), (12,20,16,23), name='')
 # exp_design(('F',1), (10,20,20,26), 'pipline.png')
 
 

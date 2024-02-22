@@ -21,7 +21,7 @@ import matplotlib as mpl
 import random
 from IPython import get_ipython
 import h5py
-get_ipython().run_line_magic('matplotlib', 'qt5')
+get_ipython().run_line_magic('matplotlib', 'inline')
 # mpl.rcParams['axes.spines.right'] = False
 mpl.rcParams['axes.spines.top'] = False
 mpl.rcParams['xtick.major.size'] = 1
@@ -273,8 +273,9 @@ def spike_plot(po, pos, name1, name2, path, u1, u2, unit_average=False):
     lid=''
     start,stop = -.005*1000, .025*1000
     bins = int((stop - start))
-    units_g,units_w = load_spikes(name1, path, lid)
-    unit1 = np.asarray(units_g[u1])
+    units_g = scipy.io.loadmat('../data/fig6_spike_file.mat')['units_g'][0]
+    # units_w = scipy.io.loadmat('../data/fig6_spike_file.mat')['units_w']
+    unit1 = np.asarray(units_g)
     # loc_times=np.asarray(units_g[u1100])
     times = np.linspace(start+1.5,stop+1.5,bins)
     all_units = []
@@ -300,9 +301,10 @@ def spike_plot(po, pos, name1, name2, path, u1, u2, unit_average=False):
     # ax.fill_between(times, vec.mean(axis=0)*mnoz-sem(vec,axis=0)*mnoz,
                     # vec.mean(axis=0)*mnoz+sem(vec,axis=0)*mnoz,color='grey',alpha=.1)
     lid='lid'
-    units_g2,units_w2 = load_spikes(name2, path, lid)
+    # units_g2,units_w2 = load_spikes(name2, path, lid)
+    units_g2 = scipy.io.loadmat('../data/fig6_spike_filelid.mat')['units_g2'][0]
     all_units2=[]
-    unit = np.asarray(units_g2[u2])
+    unit = np.asarray(units_g2)
     # loc_times=np.asarray(units_g2[u2100])
     vec2 = np.zeros((len(loc_times2), bins))
     for ii,tm in enumerate(loc_times2):
@@ -358,7 +360,7 @@ def spike_plot(po, pos, name1, name2, path, u1, u2, unit_average=False):
 loadir='../data/'
 loadir2='../data/'
 channel=130
-fig = py.figure(figsize=(30,12), dpi=220)
+fig = py.figure(figsize=(30,12), dpi=100)
 gs = fig.add_gridspec(10, 20)
 
 
@@ -372,8 +374,8 @@ ex_lfp_trials(('D',1.05), (0,3,11,20), '../data/an_multi_sov20.mat',
         '../data/an_multi_sov20lid.mat', channel=channel, trials=list(np.arange(30,31)))
 comparison(('E',1.05), (4,6,11,20), '../data/an_multi_sov20.mat',
            '../data/an_multi_sov20lid.mat', channel=channel)
-# spike_plot(('F',1.05), (7,10,11,20), 'CSC130clean','CSC130clean',
-            # r'C:\Users\Wladek\Desktop\combinato-main', 1, 1)
+spike_plot(('F',1.05), (7,10,11,20), 'CSC130clean','CSC130clean',
+            r'C:\Users\Wladek\Desktop\combinato-main', 1, 1)
 py.savefig('fig6_new_spikes_20')
 #%%
 # mua1 = scipy.io.loadmat('../data/CSC130clean.mat')['data'][0]

@@ -63,7 +63,7 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
             py.plot(time+ele_pos[n+th_start,1], pots1[n]/1e3-ele_pos[n+th_start,2], color='brown', label=label1)
             py.plot(time+ele_pos[n+th_start,1], pots2[n+th_start]/1e3-ele_pos[n+th_start,2], color=rec_color, ls='--', label=label2)
             py.plot([ele_pos[n+th_start,1], ele_pos[n+th_start,1]], [-3,-6.4], ls='--', lw=.1, )
-            py.ylim(-8,-4)
+            py.ylim(-7.7,-4)
             if 'A' in po[0]: py.ylabel('Depth (mm)')
             else: py.yticks([])
             if '3' in po[0]: py.xlabel('Width (mm)')
@@ -81,27 +81,27 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
             else:
                 py.yticks([])
         # py.xticks([])
-        py.ylim(-2.3,0)
-    if po[0]=='C2':
-        s=.08
-        py.plot([2.3-s,2.325-s], [-2,-2], color='k')
-        py.plot([2.3-s,2.3-s], [-2,-1.9], color='k')
-        py.text(2.3-s,-2.15, '10 ms',fontsize=10)
-        py.text(2.3-s,-1.89, '2 mV',fontsize=10)
-    if po[0]=='C3':
-        s=-1.45
-        py.plot([2.3-s,2.35-s], [-7.8,-7.8], color='k')
-        py.plot([2.3-s,2.3-s], [-7.8,-7.7], color='k')
-        py.text(2.3-s,-7.95, '10 ms',fontsize=10)
-        py.text(2.3-s,-7.69, '0.1 mV',fontsize=10)
-    py.legend(ncol=2, frameon = False, fontsize = 10, loc=3)     
+        py.ylim(-2.1,0)
+    if po[0]=='A2':
+        s=.06
+        py.plot([2.3-s,2.325-s], [-1,-1], color='k')
+        py.plot([2.3-s,2.3-s], [-1,-.9], color='k')
+        py.text(2.3-s,-1.15, '10 ms',fontsize=12)
+        py.text(2.3-s,-.89, '2 mV',fontsize=12)
+    if po[0]=='A3':
+        s=-1.5
+        py.plot([2.3-s,2.425-s], [-6.8,-6.8], color='k')
+        py.plot([2.3-s,2.3-s], [-6.8,-6.55], color='k')
+        py.text(2.3-s,-6.95, '25 ms',fontsize=12)
+        py.text(2.3-s,-6.5, '0.25 mV',fontsize=12)
+    py.legend(ncol=1, fontsize = 10, loc=2)     
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     
 
 th_start=88
 loadir='../data/'
-fig = py.figure(figsize=(15,14), dpi=400)
+fig = py.figure(figsize=(15,14), dpi=300)
 gs = fig.add_gridspec(26, 26)
 exp_design(('A1',1.07), (0,6,0,7), 'full_space.png')
 pots_profile(('A2',1.06), (7,14,0,8),'crtx', '', title='Estimated from all sources to cortex', typ='crtx')
@@ -121,6 +121,6 @@ pots_profile(('C3',1.04), (16,26,18,26),'th', '_th', title='Estimated from thala
 # lfp_profile(('E',1.1), (12,20,8,13), 'sov6events_t.npy', 'thalamic', .1)
 # exp_design(('F',1), (12,20,14,20), 'pipline.png')
 # py.tight_layout()
-py.savefig('fig3_new_test')
+py.savefig('fig3_new')
 # py.close()
  

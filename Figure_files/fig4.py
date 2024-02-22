@@ -44,41 +44,11 @@ def lfp_map_stat(po, pos):
     mnoz_NN=0.002
     mnoz=1
     mnoz2=0.02
-    lfp = np.array([scipy.io.loadmat(loadir+'sov16.mat')[typ_ar]*mnoz_NN, 
-                    scipy.io.loadmat(loadir+'sov17.mat')[typ_ar]*mnoz_NN,
-                    scipy.io.loadmat(loadir+'sov18.mat')[typ_ar]*mnoz_NN, 
-                    scipy.io.loadmat(loadir+'sov01.mat')[typ]*mnoz,
-                    scipy.io.loadmat(loadir+'sov02.mat')[typ]*mnoz,
-                    scipy.io.loadmat(loadir+'sov11.mat')[typ]*mnoz,
-                    scipy.io.loadmat(loadir+'sov06.mat')[typ]*mnoz,
-                    scipy.io.loadmat(loadir+'sov09.mat')[typ]*mnoz,
-                    scipy.io.loadmat(loadir+'sov19.mat')[typ]*mnoz2,
-                    scipy.io.loadmat(loadir+'sov20.mat')[typ]*mnoz2,
-                    scipy.io.loadmat(loadir+'sov21.mat')[typ]*mnoz2])
+    lfp = scipy.io.loadmat(f'../data/fig4_lfp_file{po[0]}.mat')['lfp'][0]
     typ,typ_ar = 'pots_est_th', 'pots_est_th'
-    lfp_th_est = np.array([scipy.io.loadmat(loadir+'sov16.mat')[typ_ar]*mnoz_NN, 
-                           scipy.io.loadmat(loadir+'sov17.mat')[typ_ar]*mnoz_NN,
-                           scipy.io.loadmat(loadir+'sov18.mat')[typ_ar]*mnoz_NN, 
-                           scipy.io.loadmat(loadir+'sov01.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov02.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov11.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov06.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov09.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov19.mat')[typ]*mnoz2,
-                           scipy.io.loadmat(loadir+'sov20.mat')[typ]*mnoz2,
-                           scipy.io.loadmat(loadir+'sov21.mat')[typ]*mnoz2])
+    lfp_th_est = scipy.io.loadmat(f'../data/fig4_lfp_file{po[0]}.mat')['lfp_th_est'][0]
     typ,typ_ar = 'pots_est_crtx', 'pots_est_crtx'
-    lfp_crtx_est = np.array([scipy.io.loadmat(loadir+'sov16.mat')[typ_ar]*mnoz_NN, 
-                           scipy.io.loadmat(loadir+'sov17.mat')[typ_ar]*mnoz_NN,
-                           scipy.io.loadmat(loadir+'sov18.mat')[typ_ar]*mnoz_NN, 
-                           scipy.io.loadmat(loadir+'sov01.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov02.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov11.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov06.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov09.mat')[typ]*mnoz,
-                           scipy.io.loadmat(loadir+'sov19.mat')[typ]*mnoz2,
-                           scipy.io.loadmat(loadir+'sov20.mat')[typ]*mnoz2,
-                           scipy.io.loadmat(loadir+'sov21.mat')[typ]*mnoz2])
+    lfp_crtx_est = scipy.io.loadmat(f'../data/fig4_lfp_file{po[0]}.mat')['lfp_crtx_est'][0]
     
     timepoint=150
     collect_ex1, collect_ex2 = [], []
@@ -138,28 +108,8 @@ def cor_map_stat(po, pos, typ='cs_th',typ2='cs_crtx', name='', title=''):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
     loadir='./mats/an_'
-    cor_score_th = np.array([scipy.io.loadmat(loadir+'sov16.mat')[typ], 
-                             scipy.io.loadmat(loadir+'sov17.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov18.mat')[typ], 
-                             scipy.io.loadmat(loadir+'sov01.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov02.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov11.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov06.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov09.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov19.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov20.mat')[typ],
-                             scipy.io.loadmat(loadir+'sov21.mat')[typ]])
-    cor_score_crtx = np.array([scipy.io.loadmat(loadir+'sov16.mat')[typ2], 
-                             scipy.io.loadmat(loadir+'sov17.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov18.mat')[typ2], 
-                             scipy.io.loadmat(loadir+'sov01.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov02.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov11.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov06.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov09.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov19.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov20.mat')[typ2],
-                             scipy.io.loadmat(loadir+'sov21.mat')[typ2]])
+    cor_score_th = scipy.io.loadmat(f'../data/fig4_cor_file{po[0]}.mat')['cor_score_th'][0]
+    cor_score_crtx = scipy.io.loadmat(f'../data/fig4_cor_file{po[0]}.mat')['cor_score_crtx'][0]
     n_rats = cor_score_th.shape[0]
     th_th, crtx_th = np.zeros((n_rats,len(tps)+2,lp)), np.zeros((n_rats,len(tps)+2,lp))
     th_crtx, crtx_crtx = np.zeros((n_rats,len(tps)+2,lp)), np.zeros((n_rats,len(tps)+2,lp))
@@ -216,9 +166,9 @@ def ex_lfp(po, pos, rat, div=1, div2=1, ch_th=1, ch_crtx=1):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
     import scipy.io
-    pots = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['pots']
-    recon_crtx = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['pots_est_crtx']
-    recon_th = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['pots_est_th']
+    pots = scipy.io.loadmat(f'../data/fig4_exlfp_file{po[0]}.mat')['pots']
+    recon_crtx = scipy.io.loadmat(f'../data/fig4_exlfp_file{po[0]}.mat')['recon_crtx']
+    recon_th = scipy.io.loadmat(f'../data/fig4_exlfp_file{po[0]}.mat')['recon_th']
     Fs = 10000
     loc_time = np.linspace(-5,24.9, pots.shape[1])
     pots1 = (pots[ch_crtx])#-pots[ch_crtx,:25].mean())

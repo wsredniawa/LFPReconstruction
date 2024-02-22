@@ -78,9 +78,12 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     global pots,ele_pos,inds, cont_lfp1
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.24, po[1], letter= po[0])
-    csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
-    ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
+    # csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
+    # ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
+    # plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
+    csd2 = scipy.io.loadmat('../data/'+rat+name+'.mat')['csd2']
+    ele_pos = scipy.io.loadmat('../data/'+rat+name+'.mat')['ele_pos']
+    plane =scipy.io.loadmat('../data/'+rat+name+'.mat')['plane']
     py.title(title, pad=15, fontsize=15)
     extra,res = .5,38
     x_ = np.linspace(ele_pos[0].min()-extra, ele_pos[0].max()+extra,20)
@@ -96,10 +99,10 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     ymin,ymax = plane[1].min(), plane[1].max()
     zmin,zmax = plane[2].min(), plane[2].max()
     
-    X,Y = np.meshgrid(np.linspace(ymin, ymax, 20), np.linspace(zmax, zmin, 38))
+    X,Y = np.meshgrid(np.linspace(ymin, ymax, dimx), np.linspace(zmax, zmin, dimy))
     cmap='bwr'
     if 'pot' in name: cmap = 'PRGn'
-    plot = py.contourf(X,Y,csd2[:,::-1,tp].reshape((20,38)).T,levels=np.linspace(-vmax,vmax,101),
+    plot = py.contourf(X,Y,csd2[:,::-1,tp].reshape((dimx,dimy)).T,levels=np.linspace(-vmax,vmax,101),
                      cmap=cmap, alpha=.6)
     cbar=py.colorbar(plot, pad=0, ticks=[-vmax, 0, vmax])
     cbar.formatter.set_scientific(False)
@@ -109,12 +112,12 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     py.imshow(img[:,::1], extent=[ymin, ymax, zmax, zmin], alpha=1)
     # py.yticks([1,2,3,4,5,6,7],[7,6,5,4,3,2,1])
     if 'pot' in name:
-        pots = csd2[:,::-1,tp].reshape((20,38)).T
+        pots = csd2[:,::-1,tp].reshape((dimx,dimy)).T
         cont_lfp1 = pots<-0.1
         py.contour(X,Y,cont_lfp1*pots, levels=np.linspace(-0.5,0.5,31), 
                    cmap="PRGn", linestyles='dashed', linewidth=.1)
     else:
-        pots = csd2[:,::-1,tp].reshape((20,38)).T
+        pots = csd2[:,::-1,tp].reshape((dimx,dimy)).T
         cont_lfp1 = abs(pots)>20
         py.contour(X,Y,cont_lfp1*pots, levels=np.linspace(-80,80,51), 
                    cmap="bwr", linestyles='dashed', linewidth=.1)
@@ -136,6 +139,7 @@ loadir2 = loadir='../data/'
 tp=100
 tp2=150
 tp3=250
+dimx,dimy = 20,38
 hght = 1.03
 for i in ['17']:
     fig = py.figure(figsize=(24,24), dpi=150)
@@ -183,5 +187,5 @@ for i in ['17']:
     lfp_profile2(('C3',hght), (27,36,17,25), 'csd_E', '',vmax=vmax2, tp=tp3, rat=i)
     
     py.savefig('fig5_new'+rat)
-    py.close('all')
+    # py.close('all')
  

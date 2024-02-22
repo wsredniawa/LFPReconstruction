@@ -39,18 +39,18 @@ def exp_design2(po, pos, name, text,par):
 def exp_design(po, pos, name, text,par,i):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.05, po[1], letter= po[0])
-    img = py.imread('fig_5_sov'+str(i)+'_histologia.png')
-    ele_pos = scipy.io.loadmat('./mats/an_sov'+str(i)+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('./mats/an_sov'+str(i)+'.mat')['est_plane']
+    img = py.imread('../data/fig_5_sov'+str(i)+'_histologia.png')
+    ele_pos = scipy.io.loadmat('../data/an_sov'+str(i)+'.mat')['ele_pos']
+    plane = scipy.io.loadmat('../data/an_sov'+str(i)+'.mat')['est_plane']
     ymin,ymax = plane[1].min(), plane[1].max()
     zmin,zmax = plane[2].min(), plane[2].max()
     ax.imshow(img, aspect='auto', extent=[ymin, ymax, zmax, zmin])
     if po[0]=='A':
         py.scatter(ele_pos[1,:], ele_pos[2,:], s=1, color='k')
         py.plot([ymin,4,4,ymin,ymin],[zmax,zmax,3.5,3.5,zmax], 'grey',lw=3)
-    if po[0]=='B':allall
+    if po[0]=='B':
         py.scatter(ele_pos[1,th_start:], ele_pos[2,th_start:], s=.2, color='k')
-  _      py.plot([ymin,4,4,ymin,ymin],[zmax,zmax,3.5,3.5,zmax], 'grey',lw=3)
+        py.plot([ymin,4,4,ymin,ymin],[zmax,zmax,3.5,3.5,zmax], 'grey',lw=3)
     if po[0]=='C':
         py.scatter(ele_pos[1,th_start:], ele_pos[2,th_start:], s=.2, color='k')
         py.plot([ymin,6,6,ymin,ymin],[zmax,zmax,ele_pos[2].min()-.5,ele_pos[2].min()-.5,zmax], 'grey',lw=3)
@@ -76,10 +76,10 @@ def lfp_profile_stat(po, pos, name, title, tp=100, vmax=1e3,rat='16'):
     global pots,ele_pos,inds, cont_lfp1
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.24, po[1], letter= po[0])
-    csd2 = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')[name]/1e3
-    csd3 = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['csd_E']/1e3
-    ele_pos = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['est_plane']
+    csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
+    csd3 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['csd_E']/1e3
+    ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
+    plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
     py.title(title, pad=15, fontsize=15)
     # b,a = butter(2, [2/(Fs/2), 300/(Fs/2)], btype='bandpass')
     # pots = filtfilt(b,a,pots)
@@ -155,12 +155,12 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16', ifpval=1):
     global pots,ele_pos,inds, cont_lfp1, pval
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.24, po[1], letter= po[0])
-    csd2 = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')[name]/1e3
-    csd3 = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['csd_all_multi']/1e3
-    ele_pos = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['ele_pos']
-    plane = scipy.io.loadmat('./mats/an_sov'+rat+'.mat')['est_plane']
+    csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
+    csd3 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['csd_all_multi']/1e3
+    ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
+    plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
     py.title(title, pad=15, fontsize=15)
-    img = py.imread('fig_5_sov'+str(i)+'_histologia.png')
+    img = py.imread('../data/fig_5_sov'+str(i)+'_histologia.png')
     if po[0]=='A1':
         py.ylabel('5 ms after stimulus', fontsize=25, labelpad=25)
     if po[0]=='A2':
