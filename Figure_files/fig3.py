@@ -13,6 +13,7 @@ from figure_properties import *
 import matplotlib.patches as mpatches
 from scipy.signal import welch, argrelmin, butter, filtfilt, spectrogram, detrend
 import scipy.io
+from mpl_toolkits.axes_grid.inset_locator import inset_axes
 
 py.close('all')
 
@@ -48,6 +49,7 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
     ele_pos_pre1 = np.asarray(ele_pos_list)
     # ele_pos_pre[:,1]+=3.5
     time = np.linspace(-0.025,0.125,pots1.shape[-1])
+    print(pots1.shape[-1])
     if typ=='th': 
         ch_num, color = pots1.shape[0], 'orange'
     else: 
@@ -61,8 +63,8 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
         else: label1, label2=None, None
         if typ=='th':
             py.plot(time+ele_pos[n+th_start,1], pots1[n]/1e3-ele_pos[n+th_start,2], color='brown', label=label1)
-            py.plot(time+ele_pos[n+th_start,1], pots2[n+th_start]/1e3-ele_pos[n+th_start,2], color=rec_color, ls='--', label=label2)
-            py.plot([ele_pos[n+th_start,1], ele_pos[n+th_start,1]], [-3,-6.4], ls='--', lw=.1, )
+            py.plot(time+ele_pos[n+th_start,1], pots2[n+th_start]/1e3-ele_pos[n+th_start,2], color=rec_color,label=label2, lw=1)
+            # py.plot([ele_pos[n+th_start,1], ele_pos[n+th_start,1]], [-3,-6.4], ls=':')
             py.ylim(-7.7,-4)
             if 'A' in po[0]: py.ylabel('Depth (mm)')
             else: py.yticks([])
@@ -74,7 +76,7 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
             if n==0: label1,label2= 'measured', 'reconstructed' 
             else: label1, label2=None, None
             py.plot(time/2-ele_pos[n,0], pots1[n]/1e4-ele_pos[n,2]-cor, color='navy', label=label1)
-            py.plot(time/2-ele_pos[n,0], pots2[n]/1e4-ele_pos[n,2]-cor, color=rec_color, ls='--',label=label2)
+            py.plot(time/2-ele_pos[n,0], pots2[n]/1e4-ele_pos[n,2]-cor, color=rec_color,label=label2, lw=1)
             # py.text(-ele_pos[n,0], -ele_pos[n,2], str(n), fontsize=10)
             if 'A' in po[0]: 
                 py.ylabel('Distance (mm)')
@@ -82,19 +84,24 @@ def pots_profile(po, pos, part1, part2, title='', vmax=1, typ='th', rec_color='d
                 py.yticks([])
         # py.xticks([])
         py.ylim(-2.1,0)
+    py.legend(ncol=1, fontsize = 12, loc=2)
     if po[0]=='A2':
-        s=.06
-        py.plot([2.3-s,2.325-s], [-1,-1], color='k')
-        py.plot([2.3-s,2.3-s], [-1,-.9], color='k')
-        py.text(2.3-s,-1.15, '10 ms',fontsize=12)
-        py.text(2.3-s,-.89, '2 mV',fontsize=12)
+        ax2 = inset_axes(ax,width=.12, height=.1, bbox_to_anchor=(0.96,-0.7,1,1),loc=2,
+                           bbox_transform=ax.transAxes)
+        ax2.plot([0,0], [0,1], color='k')
+        ax2.plot([0,0.05], [0,0], color='k')
+        ax2.text(0.01,-1.1, '10 ms',fontsize=8)
+        ax2.text(0.01,.9, '1 mV',fontsize=8)
+        ax2.set_xticks([]),ax2.set_yticks([]) 
     if po[0]=='A3':
-        s=-1.5
-        py.plot([2.3-s,2.425-s], [-6.8,-6.8], color='k')
-        py.plot([2.3-s,2.3-s], [-6.8,-6.55], color='k')
-        py.text(2.3-s,-6.95, '25 ms',fontsize=12)
-        py.text(2.3-s,-6.5, '0.25 mV',fontsize=12)
-    py.legend(ncol=1, fontsize = 10, loc=2)     
+        ax2 = inset_axes(ax,width=.12, height=.1, bbox_to_anchor=(0.96,-0.7,1,1),loc=2,
+                           bbox_transform=ax.transAxes)
+        ax2.plot([0,0], [0,1], color='k')
+        ax2.plot([0,0.05], [0,0], color='k')
+        ax2.text(0.01,-1.1, '10 ms',fontsize=8)
+        ax2.text(0.01,.9, '0.1 mV',fontsize=8)
+        ax2.set_xticks([]),ax2.set_yticks([]) 
+         
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     

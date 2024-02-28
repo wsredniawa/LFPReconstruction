@@ -21,7 +21,7 @@ mpl.rcParams['ytick.major.size'] = 1
 
 def exp_design(po, pos, name):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
-    set_axis(ax, 0, po[1], letter= po[0])
+    set_axis(ax, 0.1, po[1], letter= po[0], fontsize=20)
     img = py.imread(loadir+name)
     ax.imshow(img, aspect='auto')
     ax.spines['left'].set_visible(False)
@@ -31,11 +31,11 @@ def exp_design(po, pos, name):
 
 def st_profile(po, pos, name, csd, title='', key='a', vmax=1000):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
-    set_axis(ax, 0, po[1], letter= po[0])
+    set_axis(ax, -.1, po[1], letter= po[0], fontsize=20)
     pots = scipy.io.loadmat(loadir_mat+name)[csd]
-    labelf=30
+    labelf=15
     print(pots.shape)
-    py.title(title,fontsize=25,pad=10)
+    py.title(title,fontsize=labelf,pad=10)
     cmap ='bwr'
     x,y = np.meshgrid(np.linspace(-5,25,pots.shape[1]),
                       np.linspace(7.4,0,pots.shape[0]))
@@ -76,7 +76,7 @@ def st_profile(po, pos, name, csd, title='', key='a', vmax=1000):
 
 loadir='../data/'
 loadir_mat = '../data/'
-fig = py.figure(figsize=(30,15))
+fig = py.figure(figsize=(20,10), dpi=300)
 gs = fig.add_gridspec(8,17)
 # exp_design(('A',1.05), (0,10,1,6), 'hist_mtrx.png')
 st_profile(('A',1.05), (0,8,0,5), 'an_sov19.mat', csd = 'pots', 

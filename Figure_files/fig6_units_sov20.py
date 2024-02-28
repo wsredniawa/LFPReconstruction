@@ -123,7 +123,7 @@ def ex_lfp2(po, pos, name1,name2, channel=255,div=2, Fs=5000):
     mn_rth[:,30:60] = 0
     mn_plid[:,30:60] = 0
     mn_rlid[:,30:60] = 0
-    
+    scipy.io.savemat(name+'fig6.mat', {'mn_pots':mn_pots, 'mn_rth':mn_rth,'mn_plid':mn_plid,'mn_rlid':mn_rlid})
     loc_time = np.linspace(-5,25, pots.shape[2])
     py.plot(loc_time, mn_pots[channel], color='grey',label='control')
     # py.fill_between(loc_time, mn_pots[channel]-std_pots[channel],mn_pots[channel]+std_pots[channel], 
@@ -183,8 +183,9 @@ def ex_lfp_trials(po, pos, name1,name2, channel=255,div=2, Fs=5000, trials = 30)
 def lfp_profile(po, pos, name, title, vmax=200, scale=40, size=20):
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, 0, po[1], letter= po[0])
-    lfp = scipy.io.loadmat(name)['pots']
-    ele_pos = scipy.io.loadmat('../data/sov19.mat')['ele_pos'].T
+    lfp = scipy.io.loadmat(name+'fig6.mat')['lfp']
+    ele_pos = scipy.io.loadmat(name+'fig6.mat')['ele_pos']
+    # scipy.io.savemat(name+'fig6.mat', {'lfp':np.asarray(lfp,dtype=np.float32), 'ele_pos':ele_pos})
     lfp = lfp.mean(axis=1)
     py.title(title, fontsize=size)
     time= np.linspace(-5,25,lfp.shape[1])
@@ -204,7 +205,6 @@ def lfp_profile(po, pos, name, title, vmax=200, scale=40, size=20):
         py.text(26.4,-0.2, '1 mV', size=15)
     
 def comparison(po, pos, name1,name2, channel=255,div=2, Fs=5000, n_iter=1000):
-    global recon_th,stat,pvals,all_indexes,worek
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.04, po[1], letter= po[0])
     pots = scipy.io.loadmat(name1)['pots']
@@ -373,7 +373,7 @@ exp_design(('C',1.03), (0,10,7,10), '../utils/fig6_hist_sov20.png')
 ex_lfp_trials(('D',1.05), (0,3,11,20), '../data/an_multi_sov20.mat',
         '../data/an_multi_sov20lid.mat', channel=channel, trials=list(np.arange(30,31)))
 comparison(('E',1.05), (4,6,11,20), '../data/an_multi_sov20.mat',
-           '../data/an_multi_sov20lid.mat', channel=channel)
+            '../data/an_multi_sov20lid.mat', channel=channel)
 spike_plot(('F',1.05), (7,10,11,20), 'CSC130clean','CSC130clean',
             r'C:\Users\Wladek\Desktop\combinato-main', 1, 1)
 py.savefig('fig6_new_spikes_20')

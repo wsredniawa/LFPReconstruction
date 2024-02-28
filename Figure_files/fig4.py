@@ -91,7 +91,7 @@ def lfp_map_stat(po, pos):
     py.xticks([2.5,3.5],['Thal.', 'Cort.'])
     # py.text(2.9, 0.12, '*', fontsize=30)
     py.text(2.4, -0.06, '*', fontsize=30)
-    ax2.set_ylabel('Corrected Potential (mV)')
+    ax2.set_ylabel('LFP Difference (mV)')
     print(shapiro(dif_ex1ex2c),
           shapiro(dif_ex1ex2))
     # test = permutation_test([dif_ex1ex2,dif_ex1ex2c],statistic)
@@ -184,7 +184,7 @@ def ex_lfp(po, pos, rat, div=1, div2=1, ch_th=1, ch_crtx=1):
     pots2 = (pots[ch_th]-pots[ch_th,:25].mean())/min_scale
     py.plot(loc_time, pots1, color='navy',label='Cortical EP',lw=3)
     py.plot(loc_time, rec_cortex, color='skyblue', ls='--',label='Cortical recon.',lw=3)
-    ax.tick_params(axis='y', labelcolor='navy')
+    ax.tick_params(axis='y', labelcolor='blue')
     py.legend(loc=4)
     ax2 = ax.twinx()
     color = 'orange'
@@ -193,7 +193,7 @@ def ex_lfp(po, pos, rat, div=1, div2=1, ch_th=1, ch_crtx=1):
     ax2.plot(loc_time, (recon_th[ch_th]-pots[ch_th,:25].mean())/min_scale, color='red', 
              ls='--',label='Thalamic recon.',lw=3)
     ax2.set_ylim(-.25,.25), ax.set_ylim(-2.5,2.5)
-    ax2.tick_params(axis='y', labelcolor='orange')
+    ax2.tick_params(axis='y', labelcolor='red')
     # ax2.text(3.4,-.25, '*')
     # ax2.text(9.2,-.5, '**')
     ax.set_xlabel('Time (ms)'),ax.set_ylabel('Potential (mV)')

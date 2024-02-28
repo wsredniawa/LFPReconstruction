@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 
-def set_axis(ax, x, y, letter=None):
+def set_axis(ax, x, y, letter=None, fontsize=20):
     ax.text(
         x,
         y,
         letter,
-        fontsize=20,
+        fontsize=fontsize,
         weight='bold',
         transform=ax.transAxes)
     return ax

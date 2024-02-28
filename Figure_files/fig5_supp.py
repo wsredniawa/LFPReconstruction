@@ -137,7 +137,7 @@ def compute_score(true_csd_r, est_csd_r):
     point_error = err_r.reshape(true_csd_r.shape)
     return point_error    
     
-def compute_stat(csd2,csd3,n_iter=1000,tp=100):
+def compute_stat(csd2,csd3,n_iter=10000,tp=100):
     global worek,r_ind,zbior1
     import random
     pvals_resamp = np.zeros((n_iter,20,38))
@@ -152,13 +152,14 @@ def compute_stat(csd2,csd3,n_iter=1000,tp=100):
     return sum(pvals_resamp>omean)/n_iter
     
 def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16', ifpval=1):
-    global pots,ele_pos,inds, cont_lfp1, pval
+    global pval
     ax = fig.add_subplot(gs[pos[0]:pos[1], pos[2]:pos[3]])
     set_axis(ax, -.24, po[1], letter= po[0])
     csd2 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')[name]/1e3
     csd3 = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['csd_all_multi']/1e3
     ele_pos = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['ele_pos']
     plane = scipy.io.loadmat('../data/an_sov'+rat+'.mat')['est_plane']
+    # scipy.io.savemat('csd_'+rat+'.mat', {'csd2':csd2, 'csd3':csd3, 'ele_pos':ele_pos, 'plane':plane})
     py.title(title, pad=15, fontsize=15)
     img = py.imread('../data/fig_5_sov'+str(i)+'_histologia.png')
     if po[0]=='A1':
@@ -171,6 +172,7 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16', ifpval=1):
     zmin,zmax = plane[2].min(), plane[2].max()
     
     X,Y = np.meshgrid(np.linspace(ymin, ymax, 20), np.linspace(zmax, zmin, 38))
+    py.imshow(img[:,::1], extent=[ymin, ymax, zmax, zmin], alpha=1)
     if ifpval==0:
         csd3m = np.mean(csd3[...,tp],axis=0)
         csd2m = np.mean(csd2[...,tp],axis=0)
@@ -188,14 +190,14 @@ def lfp_profile2(po, pos, name, title, tp=100, vmax=1e3,rat='16', ifpval=1):
     if ifpval:
         pval = compute_stat(csd3,csd2,tp=tp)
     
-        plot = py.contourf(X, Y, pval[:,::-1].T, levels=np.linspace(0,0.1,100),
-                            cmap='Greys_r', alpha=.5)
-        cbar=py.colorbar(plot, pad=0, ticks=[0,0.025,0.05,0.075])
+        # plot = py.contourf(X, Y, pval[:,::-1].T, levels=np.linspace(0,0.1,100),
+                           # cmap='Greys_r', alpha=.5)
+        plot = py.imshow(pval[:,:].T, extent=[ymin, ymax, zmax, zmin], cmap='Greys_r', alpha=.3, vmin=0, vmax=.1)
+        cbar=py.colorbar(plot, pad=0, ticks=[0,0.01,0.05,0.1])
         cbar.formatter.set_scientific(False)
         cbar.ax.tick_params(size=0)
         cbar.update_ticks()
     py.scatter(ele_pos[1,th_start:], ele_pos[2,th_start:], s=.2, color='k')
-    py.imshow(img[:,::1], extent=[ymin, ymax, zmax, zmin], alpha=1)
     
     if '3' in po[0]:
         py.xlabel('M<->L axis (mm)')

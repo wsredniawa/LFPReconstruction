@@ -94,7 +94,7 @@ def ex_lfp_NP(po, pos, name):
     ax2.tick_params(axis='y', labelcolor='red')
     ax.text(3.2,-1.3, 'o',fontsize=25)
     ax.text(8.4,-1.8, 'oo',fontsize=25)
-    ax.set_xlabel('Time (ms)')
+    
     # ax.set_xlim(-10,50)
     # py.axvspan(-4, -2, alpha=.3, color='grey')
     py.axvspan(-2, 1, alpha=.3, color='grey')
@@ -106,6 +106,7 @@ def ex_lfp_NP(po, pos, name):
     ax2.set_xlim(-5,22)
     ax2.legend(loc=1,frameon=False, bbox_to_anchor=(1.01,.9))
     mpl.rcParams['axes.spines.right'] = False
+    ax.set_xlabel('Time (ms)')
     # est = mpatches.Patch(color='orange', label='Thalamic EP')
     # pot = mpatches.Patch(color='navy', label='Cortical EP')
     # py.legend(handles=[est, pot], ncol=1,loc=1, frameon = False, fontsize = 10) 
@@ -147,7 +148,7 @@ def lfp_profile(po, pos, name, title, vmax=200):
     py.axvline(0, ls='--', lw = 2, color='grey')
     
 loadir='../data/'
-fig = py.figure(figsize=(20,10))
+fig = py.figure(figsize=(20,10), dpi=300)
 gs = fig.add_gridspec(20, 23)
 exp_design(('A',1.03), (0,20,0,7), 'fig1_rat.png')
 # exp_design(('B',1.07), (12,20,0,6), 'hist.png')
