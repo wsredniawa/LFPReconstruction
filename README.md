@@ -9,3 +9,4 @@ Package needed to run the code:
 - numpy >=1.21.5
   
 To test the reconstruction first run first Computing_CSD\csd_analysis_NN.py (or other). It will save another .mat for figures.
+Scripts for Figure 5 (and supplement with statistical comparison) need big files to run. We are ready to send it on request.
